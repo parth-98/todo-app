@@ -1,36 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
 
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-  
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
   <title>Frontend Mentor | Todo app</title>
 
   <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
+
 </head>
+
 <body>
+  <main>
+    <section class="main">
+      <div class="container">
+        <div class="todo-header">
+          <h1>todo</h1>
+          <input type="checkbox" class="toggle-theme">
+        </div>
+        <div class="todo-create">
+          <input type="checkbox" class="todo-check">
+          <input type="text" class="input-todo todo-text" placeholder="Create a new todo..." value="">
+        </div>
+        <div class="todo-list">
+          <ul class="todo-data">
 
-  Todo
-
-  <!-- Add dynamic number --> items left
-
-  All
-  Active 
-  Completed
-
-  Clear Completed
-
-  Drag and drop to reorder list
+          </ul>
+          <div class="bottom-box">
+            <div class="item-left">0 item left</div>
+            <div class="status-box desktop">
+                <a href="#" class="active all-todo">All</a>
+                <a href="#" class="active-todo">Active</a>
+                <a href="#" class="Completed-todo">Completed</a>
+            </div>
+            <div class="clear-todo">Clear Completed</div>
+            
+          </div>
+          <div class="status-box mobile">
+            <a href="#" class="active all-todo">All</a>
+            <a href="#" class="active-todo">Active</a>
+            <a href="#" class="Completed-todo">Completed</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+    Coded by <a href="#">Parth Patel</a>.
   </div>
+  <script src="jquery/jquery.js" text="text/javascript"></script>
+  <script>
+
+    $(document).ready(function () {
+      var array = []
+      let id = 0
+      var itemleft = 0
+
+      $(".status-box a").click(function(){
+        if($(this).siblings().hasClass('active')){
+          $(this).siblings().removeClass('active')
+          $(this).addClass('active')
+        }
+      })
+     
+      $(".todo-data").append(callArray(array));
+      // $('.todos').each(function (i) {
+      //   var t = $(this);
+      //   setTimeout(function () { t.addClass('animation'); }, (i + 1) * 150);
+        
+      // });
+      itemsLeft()
+
+
+      // remove todo list
+      $('.todo-data').on('click', '.todo-remove', function () {
+        console.log(jQuery(this).prev().text())
+        for (r = 0; r < array.length; r++) {
+          if (array[r].id == jQuery(this).parent().find('.todo-check').attr('id')) {
+            $(this).parent('.todos').css({ right: '100%', opacity: '0' })
+            array.splice(r, 1)
+          }
+        }
+       
+        itemsLeft()
+        setTimeout(function () {
+          $(".todo-data").empty()
+          callArray(array)
+
+        }, 500)
+      });
+
+      // light-dark theme function
+
+      $('.toggle-theme').click(function () {
+        if ($('body').hasClass('dark-theme')) {
+          $('body').removeClass('dark-theme')
+        } else {
+          $('body').addClass('dark-theme')
+        }
+      })
+
+      // get value from input and set to list
+
+
+      $('.input-todo').on('keyup', function (e) {
+        if (e.key === 'Enter') {
+          let todo = $('.input-todo').val()
+          let status = ($(this).prev().is(":checked")) ? "checked" : ""
+          array.push({ id: id, value: todo, checked: status })
+         
+          $('.todo-data').append(
+            '<li class="todos todo-create"><input type="checkbox" class="todo-check check-status" id =' + id + ' ' + status + '><label for="checkbox" class="todo-text">' + todo + '</label><img class="todo-remove" src="images/icon-cross.svg" alt="close"></li>'
+          )
+          id++
+          // $('.todos').each(function (i) {
+          //   var t = $(this);
+          //   setTimeout(function () { t.addClass('animation'); }, 150);
+          // });
+          $('.input-todo').val("")
+          itemsLeft()
+        }
+      });
+
+
+      // check status of checkbox
+
+      $('.todo-data').on('change', '.check-status', function () {
+        var initStatus = (jQuery(this).is(":checked")) ? "checked" : ""
+        var itemId = jQuery(this).attr('id');
+        changeDesc(itemId, initStatus)
+        itemsLeft()
+
+      })
+
+      //completed todo list
+
+      $('.Completed-todo').click(function () {
+        $(".todo-data").empty()
+        var activeArray = []
+        activeArray = array.filter(word => word.checked == 'checked');
+        callArray(activeArray)
+
+      })
+
+      //clear todo list
+
+      $('.clear-todo').click(function () {
+        $(".todo-data").empty()
+        array = array.filter(word => word.checked !== 'checked');
+        callArray(array)
+
+      })
+
+      //all todo list
+
+      $('.all-todo').click(function () {
+        $(".todo-data").empty()
+        callArray(array)
+      });
+
+      //active todo list 
+
+      $('.active-todo').click(function () {
+        $(".todo-data").empty()
+        var activeArray = []
+        activeArray = array.filter(word => word.checked !== 'checked');
+        callArray(activeArray)
+      })
+
+
+      function itemsLeft() {
+        console.log('items' + array.toString)
+        var left = array.filter(word => word.checked !== 'checked');
+        console.log(left)
+        $('.item-left').text(left.length + " " + 'items left')
+      }
+
+      function changeDesc(id, status) {
+        for (var i in array) {
+          if (array[i].id == id) {
+            array[i].checked = status;
+          }
+        }
+        // localStorage.setItem("array", JSON.stringify(array))
+      }
+
+      function callArray(array) {
+        for (var a = 0; a < array.length; a++) {
+          var r = '<li class="todos todo-create"><input type="checkbox" class="todo-check check-status" id =' + array[a].id + ' ' + array[a].checked + '><label for="checkbox" class="todo-text">' + array[a].value + '</label><img class="todo-remove" src="images/icon-cross.svg" alt="close"></li>'
+
+          $(".todo-data").append(r)
+        }
+      }
+    })
+
+  </script>
 </body>
+
 </html>

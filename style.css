@@ -1,0 +1,247 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+  font-family: "Josefin Sans", sans-serif;
+}
+a{
+  text-decoration: none;
+  padding: 0px 10px;
+}
+.dark-theme {
+  background-image: url("images/bg-desktop-dark.jpg");
+  background-color: #181824;
+}
+.dark-theme .todos {
+  background-color: hsl(237, 14%, 26%);
+}
+.dark-theme .mobile{
+    background-color: hsl(237, 14%, 26%);
+
+}
+.dark-theme .bottom-box{
+    background-color: hsl(237, 14%, 26%);
+}
+.dark-theme .todo-create .todo-text {
+  color: #d1d3ea;
+}
+.dark-theme .todo-create .input-todo{
+    color: #424147;
+
+}
+.dark-theme .todo-list .todos{
+  border-bottom: 1px solid hsl(234, 11%, 52%);
+}
+body {
+  background-image: url("images/bg-desktop-light.jpg");
+  height: 300px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #fafafa;
+}
+.container {
+  max-width: 50%;
+margin: 0px auto;
+padding: 70px 0px;
+}
+.todo-header {
+  display: flex;
+  justify-content: space-between;
+}
+h1 {
+  text-transform: uppercase;
+  letter-spacing: 16px;
+  font-size: 34px;
+  font-weight: 700;
+  color: white;
+}
+.toggle-theme {
+  -webkit-appearance: none;
+  outline: none;
+  width: 50px;
+  height: 25px;
+  background-color: #212121;
+  border-radius: 50px;
+  position: relative;
+  transition: 0.4s;
+}
+.toggle-theme::before {
+  content: "";
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  border-radius: 50px;
+  top: 0;
+  bottom: 0;
+  background-image: url("images/icon-moon.svg");
+  background-repeat: no-repeat;
+  transition: 0.4s;
+}
+
+.toggle-theme:checked {
+  background-color: rgb(179, 107, 13);
+}
+
+.toggle-theme:checked::before {
+  transform: translate(100%) rotate(360deg);
+  background-image: url("images/icon-sun.svg");
+  transition: 0.4s;
+}
+.todo-create {
+  background-color: white;
+  padding: 14px 26px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  margin: 30px auto;
+}
+.todo-check {
+  border: 1px solid gray;
+  outline: none;
+  -webkit-appearance: none;
+  width: 26px;
+  height: 24px;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+}
+.todo-check:checked {
+  background: linear-gradient(123deg, #57ddff, #c058f3);
+  border: none;
+}
+.todos:hover .todo-remove {
+  display: block;
+  transition: all 1s;
+}
+.todo-check:checked + label {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+.todo-check:checked::before {
+  background-image: url("images/icon-check.svg");
+  content: "";
+  width: 11px;
+  height: 9px;
+  z-index: 999;
+  top: 7px;
+  left: 7px;
+  position: absolute;
+}
+
+.todo-text {
+  outline: none;
+  border: none;
+  padding: 10px 26px;
+  font-size: 20px;
+  color: #424147;
+  width: 100%;
+  background: transparent;
+  cursor: pointer;
+}
+/* .todo-text:hover + .todo-remove {
+  display: block;
+} */
+.todos .todo-text {
+  font-size: 16px;
+}
+li {
+  list-style: none;
+}
+
+.todos {
+  width: 100%;
+  padding: 10px 26px;
+  padding-top: 10px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid hsl(233, 11%, 84%);
+  right: 0%;
+  height: 100%;
+  position: relative;
+  border-radius: 0px;
+  background-color: white;
+  transition: all 1s;
+}
+.animation {
+  width: 100%;
+}
+.todo-remove {
+  display: none;
+}
+.todos:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.todo-list .todo-data {
+  display: flex;
+  flex-direction: column;
+  padding: 0px;
+  align-items: center;
+}
+.todo-data .todo-create {
+  margin: 0px;
+}
+.bottom-box {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  font-weight: 700;
+  color: hsl(236, 9%, 61%);  background-color: white;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  transition: all 1s;
+}
+.status-box {
+  display: flex;
+}
+
+.status-box a{
+    color: hsl(236, 9%, 61%);
+}
+.status-box a:hover {
+  color: hsl(235, 19%, 35%);
+}
+.status-box .active {
+  color: hsl(220, 98%, 61%);
+}
+.clear-todo{
+  cursor: pointer;
+}
+.mobile{
+  display: none;
+}
+.attribution {
+  font-size: 11px;
+  text-align: center;
+}
+.attribution a {
+  color: hsl(228, 45%, 44%);
+}
+
+@media only screen and (max-width : 400px){
+  .container {
+    max-width: 90%;
+  
+}
+.todo-text {
+    padding: 10px 0px 10px 10px;
+}
+.desktop{
+  display: none;
+}
+.mobile{
+  display: block;
+text-align: center;
+margin: 10px 0px;
+padding: 20px 0px;
+font-weight: 700;
+color: hsl(236, 9%, 61%);
+background-color: white;
+transition: all 1s;
+border-radius: 6px;
+}
+}
